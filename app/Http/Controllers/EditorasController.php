@@ -15,4 +15,13 @@ class EditorasController extends Controller
             'editoras'=>$editoras
         ]);
     }
+    public function show(Request $request){
+        $idEditora = $request->ide;
+        //$editora=Editora::findOrFail($idEditora);
+        //$editora=Editora::find($idEditora);
+        $editora=Editora::where('ide',$idEditora)->first();
+        return view('editoras.show',[
+            'editora'=>$editora
+        ]);
+    }
 }

@@ -10,7 +10,7 @@ Imagem Capa:{{$livro->imagem_capa}}<br>
 Genero:{{$livro->id_genero}}<br>
 Autor:{{$livro->id_autor}}<br>
 Sinopse:{{$livro->sinopse}}<br>
-Created_at:{{$autores->created_at}}<br>
-Updated_at:{{$autores->updated_at}}<br>
-Deleted_at:{{$autores->deleted_at}}
+Created_at:{{$livro->created_at}}<br>
+Updated_at:{{$livro->updated_at}}<br>
+Deleted_at:{{$livro->deleted_at}}
 </ul>

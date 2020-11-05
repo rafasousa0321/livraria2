@@ -1,3 +1,4 @@
+@extends('layout')
 <ul>
 {{$generos->render()}}
 @foreach($generos as $genero)

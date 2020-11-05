@@ -1,3 +1,4 @@
+@extends('layout')
 <ul>
 IDE:{{$editora->id_editora}}<br>
 Nome:{{$editora->nome}}<br>

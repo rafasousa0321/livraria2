@@ -10,4 +10,10 @@ class Livro extends Model
     use HasFactory;
     protected $primaryKey="idl_livro";
     protected $table="livros";     
+    public function genero(){
+        return $this->belongsTo('App\Models\Genero','id_genero');
+    }
+    public function autor(){
+        return $this->belongsTo('App\Models\Autor','id_autor');
+    }
 }

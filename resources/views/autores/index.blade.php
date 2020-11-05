@@ -1,3 +1,4 @@
+@extends('layout')
 <ul>
 {{$autores->render()}}
 @foreach($autores as $autor)

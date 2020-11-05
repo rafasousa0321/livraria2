@@ -19,7 +19,7 @@ class AutoresController extends Controller
         $idAutores = $request->ida;
         //$autores=Autor::findOrFail($idAutores);
         //$autores=Autor::find($idAutores);
-        $autores=Autor::where('id_autor',$idAutores)->first();
+        $autores=Autor::where('id_autor',$idAutores)->with('livros')->first();
         return view('autores.show',[
             'autores'=>$autores
         ]);

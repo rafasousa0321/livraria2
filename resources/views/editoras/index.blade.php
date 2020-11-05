@@ -1,3 +1,4 @@
+@extends('layout')
 <ul>
 {{$editoras->render()}}
 @foreach($editoras as $editora)

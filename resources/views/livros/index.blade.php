@@ -1,3 +1,4 @@
+@extends('layout')
 <ul>
 {{$livros->render()}}
 @foreach($livros as $livro)

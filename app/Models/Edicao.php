@@ -5,9 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Autor extends Model
+class Edicao extends Model
 {
     use HasFactory;
-    protected $primaryKey="id_autor";
-    protected $table="autores";  
+    protected $primaryKey1="id_livro";
+    protected $primaryKey2="id_editora";
+    protected $table="edicoes";  
 }

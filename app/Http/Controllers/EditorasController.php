@@ -19,7 +19,7 @@ class EditorasController extends Controller
         $idEditora = $request->ide;
         //$editora=Editora::findOrFail($idEditora);
         //$editora=Editora::find($idEditora);
-        $editora=Editora::where('ide',$idEditora)->first();
+        $editora=Editora::where('id_editora',$idEditora)->first();
         return view('editoras.show',[
             'editora'=>$editora
         ]);

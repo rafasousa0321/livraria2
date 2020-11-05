@@ -40,3 +40,9 @@ Route::get('/editoras/{ide}/show','App\Http\Controllers\EditorasController@show'
 
 Route::get('/autores/{ida}/show','App\Http\Controllers\AutoresController@show')
     ->name('autores.show');
+
+Route::get('/edicoes','App\Http\Controllers\EdicoesController@index')
+    ->name('edicoes.index');
+
+Route::get('/edicoes/{}/show','App\Http\Controllers\EdicoesController@index')
+    ->name('edicoes.show');

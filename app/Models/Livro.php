@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Livro extends Model
 {
     use HasFactory;
-    protected $primaryKey="idl";
+    protected $primaryKey="idl_livro";
     protected $table="livros";     
 }

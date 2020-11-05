@@ -4,11 +4,11 @@ IDA:{{$autores->id_autor}}<br>
 Nome:{{$autores->nome}}<br>
     @if(count($autores->livros))
         @foreach($autores->livros as $livro)
-            {{$livro->titulo}}<br>
+            Livros deste autor: {{$livro->titulo}}<br>
         @endforeach
     @else  
         <div class="alert alert-danger" role="alert">
-            Neste autor ainda não há livros!
+            Neste autor ainda não tem livros!
         </div>
     @endif
 Nacionalidade:{{$autores->nacionalidade}}<br>

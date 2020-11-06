@@ -46,3 +46,6 @@ Route::get('/edicoes','App\Http\Controllers\EdicoesController@index')
 
 Route::get('/edicoes/{}/show','App\Http\Controllers\EdicoesController@index')
     ->name('edicoes.show');
+
+Route::post('/livros/formenviado','App\Http\Controllers\LivrosController@formenviado')
+    ->name('livros.form');

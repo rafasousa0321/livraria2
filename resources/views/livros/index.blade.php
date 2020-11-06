@@ -13,4 +13,11 @@ Livraria
 </li>
 @endforeach
 </ul>
+
+<form method="post" action="{{route('livros.form')}}">
+    @csrf
+<label for="nome">Nome</label>
+<input type="text" name="nome">
+<button type="submit">Enviar</button>
+<br><br>
 @endsection

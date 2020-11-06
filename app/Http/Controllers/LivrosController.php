@@ -24,4 +24,9 @@ class LivrosController extends Controller
             'livro'=>$livro
         ]);
     }
+    public function formenviado(Request $request){
+        $nome=$request->nome;
+        $livro=Livro::where('id_livro',$idLivro)->with(['genero','autores','editoras'])->first();
+        return view('livros.formenviado',['nome'=>$nome]);
+    }
 }

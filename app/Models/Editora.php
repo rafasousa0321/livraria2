@@ -9,5 +9,13 @@ class Editora extends Model
 {
     use HasFactory;
     protected $primaryKey="id_editora";
-    protected $table="editoras";  
+    protected $table="editoras";
+    public function livros(){
+        return $this->belongsToMany(
+            'App\Models\Livro',
+            'editoras_livros',
+            'id_editora',
+            'id_livro'
+        )->withTimestamps();
+    }  
 }

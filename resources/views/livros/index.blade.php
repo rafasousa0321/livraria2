@@ -1,4 +1,8 @@
 @extends('layout')
+@section('titulo-pagina')
+Livraria
+@endsection
+@section('conteudo')
 <ul>
 {{$livros->render()}}
 @foreach($livros as $livro)
@@ -9,3 +13,4 @@
 </li>
 @endforeach
 </ul>
+@endsection

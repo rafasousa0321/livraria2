@@ -13,10 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::get('/livros','App\Http\Controllers\LivrosController@index')
     ->name('livros.index');
 
@@ -47,5 +43,8 @@ Route::get('/edicoes','App\Http\Controllers\EdicoesController@index')
 Route::get('/edicoes/{}/show','App\Http\Controllers\EdicoesController@index')
     ->name('edicoes.show');
 
-Route::post('/livros/formenviado','App\Http\Controllers\LivrosController@formenviado')
-    ->name('livros.form');
+Route::get('/','App\Http\Controllers\PesquisaController@index')
+    ->name('pesquisa.index');
+
+Route::post('/form','App\Http\Controllers\PesquisaController@formenviado')
+    ->name('pesquisa.form');

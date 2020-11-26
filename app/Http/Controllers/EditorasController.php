@@ -24,4 +24,22 @@ class EditorasController extends Controller
             'editora'=>$editora
         ]);
     }
+
+    public function create(){
+        return view('editoras.create');
+    }
+
+    public function store(Request $req){
+        $novaEditora = $req->validate([
+            'id_editora'=>['required', 'min:3', 'max:11'],
+            'nome'=>['required', 'min:3', 'max:100'],
+            'morada'=>['nullable', 'min:3', 'max:255'],
+            'observacoes'=>['nullable', 'min:3', 'max:255'],
+        ]);
+        $editora = Editora::create($novaEditora);
+
+        return redirect()->route('editora.show', [
+            'ide'=>$editora->id_editora
+        ]);
+    }
 }

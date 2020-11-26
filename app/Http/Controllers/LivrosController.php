@@ -37,7 +37,7 @@ class LivrosController extends Controller
             'idioma'=>['required', 'min:3', 'max:10'],
             'total_paginas'=>['nullable', 'numeric', 'min:25'],
             'data_edicao'=>['nullable', 'date'],
-            'ibsn'=>['required', 'min:13', 'max:13'],
+            'isbn'=>['required', 'min:13', 'max:13'],
             'observacoes'=>['nullable', 'min:3', 'max:255'],
             'imagem_capa'=>['nullable', 'min:3', 'max:25'],
             'id_genero'=>['nullable', 'numeric'],
@@ -45,5 +45,9 @@ class LivrosController extends Controller
             'sinopse'=>['nullable', 'min:3', 'max:255'],
         ]);
         $livro = Livro::create($novoLivro);
+
+        return redirect()->route('livros.show', [
+            'id'=>$livro->id_livro
+        ]);
     }
 }

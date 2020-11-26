@@ -24,4 +24,21 @@ class GenerosController extends Controller
             'genero'=>$genero
         ]);
     }
+
+    public function create(){
+        return view('generos.create');
+    }
+
+    public function store(Request $req){
+        $novoGenero = $req->validate([
+            'id_genero'=>['required', 'min:3', 'max:11'],
+            'designacao'=>['required', 'min:3', 'max:30'],
+            'observacoes'=>['nullable', 'min:25', 'max:255'],
+        ]);
+        $genero = Genero::create($novoGenero);
+
+        return redirect()->route('generos.show', [
+            'idg'=>$genero->id_genero
+        ]);
+    }
 }

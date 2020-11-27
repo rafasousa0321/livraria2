@@ -72,3 +72,27 @@ Route::get('/generos/create', 'App\Http\Controllers\GenerosController@create')
 
 Route::post('/generos/store', 'App\Http\Controllers\GenerosController@store')
     ->name('generos.store');
+
+Route::get('/livros/{id}/edit', 'App\Http\Controllers\LivrosController@edit')
+    ->name('livros.edit');
+
+Route::patch('/livros/{id}', 'App\Http\Controllers\LivrosController@update')
+    ->name('livros.update');
+
+Route::get('/autores/{id}/edit', 'App\Http\Controllers\AutoresController@edit')
+    ->name('autores.edit');
+
+Route::patch('/autores/{id}', 'App\Http\Controllers\AutoresController@update')
+    ->name('autores.update');
+
+Route::get('/editoras/{id}/edit', 'App\Http\Controllers\EditorasController@edit')
+    ->name('editoras.edit');
+
+Route::patch('/editoras/{id}', 'App\Http\Controllers\EditorasController@update')
+    ->name('editoras.update');
+
+Route::get('/generos/{id}/edit', 'App\Http\Controllers\GenerosController@edit')
+    ->name('generos.edit');
+
+Route::patch('/generos/{id}', 'App\Http\Controllers\GenerosController@update')
+    ->name('generos.update');

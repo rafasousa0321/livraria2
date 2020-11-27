@@ -50,4 +50,33 @@ class LivrosController extends Controller
             'id'=>$livro->id_livro
         ]);
     }
+
+    public function edit(Request $req){
+        $idLivro = $req->id;
+        $livro = Livro::where('id_livro', $idLivro)->first();
+        return view('livros.edit', [
+            'livro'=>$livro
+        ]);
+    }
+
+    public function update(Request $req){
+        $idLivro=$req->id;
+        $livro = Livro::findOrFail($idLivro);
+        $editarLivro = $req->validate([
+            'titulo'=>['required', 'min:3', 'max:100'],
+            'idioma'=>['required', 'min:3', 'max:10'],
+            'total_paginas'=>['nullable', 'numeric', 'min:25'],
+            'data_edicao'=>['nullable', 'date'],
+            'isbn'=>['required', 'min:13', 'max:13'],
+            'observacoes'=>['nullable', 'min:3', 'max:255'],
+            'imagem_capa'=>['nullable', 'min:3', 'max:25'],
+            'id_genero'=>['nullable', 'numeric'],
+            'id_autor'=>['nullable', 'numeric'],
+            'sinopse'=>['nullable', 'min:3', 'max:255'],
+        ]);
+        $livro->update($editarLivro);
+        return redirect()->route('livros.show', [
+            'id'=>$livro->id_livro
+        ]);
+    }
 }

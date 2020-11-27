@@ -12,4 +12,6 @@ Livraria
 </a></li>
 @endforeach
 </ul>
+<br>
+<a href="{{route('generos.create')}}" class="btn btn-primary">Novo Genero</a>
 @endsection

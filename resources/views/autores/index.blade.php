@@ -12,4 +12,6 @@ Livraria
 </a></li>
 @endforeach
 </ul>
+<br>
+<a href="{{route('autores.create')}}" class="btn btn-primary">Novo Autor</a>
 @endsection

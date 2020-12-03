@@ -21,4 +21,5 @@ Deleted_at:{{$autores->deleted_at}}
 <br>
 <br>
 <a href="{{route('autores.edit' , ['id'=>$autores->id_autor])}}" class="btn btn-primary">Editar Autor</a>
+<a href="{{route('autores.delete' , ['id'=>$autores->id_autor])}}" class="btn btn-primary">Eliminar Autor</a>
 </ul>

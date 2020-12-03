@@ -96,3 +96,21 @@ Route::get('/generos/{id}/edit', 'App\Http\Controllers\GenerosController@edit')
 
 Route::patch('/generos/{id}', 'App\Http\Controllers\GenerosController@update')
     ->name('generos.update');
+
+Route::get('/livros/{id}/delete', 'App\Http\Controllers\LivrosController@delete')
+    ->name('livros.delete');
+
+Route::delete('/livros', 'App\Http\Controllers\LivrosController@destroy')
+    ->name('livros.destroy');
+
+Route::get('/autores/{id}/delete', 'App\Http\Controllers\AutoresController@delete')
+    ->name('autores.delete');
+
+Route::delete('/autores', 'App\Http\Controllers\AutoresController@destroy')
+    ->name('autores.destroy');
+
+Route::get('/generos/{id}/delete', 'App\Http\Controllers\GenerosController@delete')
+    ->name('generos.delete');
+
+Route::delete('/generos', 'App\Http\Controllers\GenerosController@destroy')
+    ->name('generos.destroy');

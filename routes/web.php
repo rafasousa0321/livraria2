@@ -114,3 +114,9 @@ Route::get('/generos/{id}/delete', 'App\Http\Controllers\GenerosController@delet
 
 Route::delete('/generos', 'App\Http\Controllers\GenerosController@destroy')
     ->name('generos.destroy');
+
+Route::get('/editoras/{id}/delete', 'App\Http\Controllers\EditorasController@delete')
+    ->name('editoras.delete');
+
+Route::delete('/editoras', 'App\Http\Controllers\EditorasController@destroy')
+    ->name('editoras.destroy');

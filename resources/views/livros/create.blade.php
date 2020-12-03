@@ -35,10 +35,15 @@
     @if ($errors-> has('imagem_capa'))
     <span style="color:red">A imagem deve ter entre 3 e 25 caracteres.</span><br><br>
     @endif<br>
-
-    <b>Género: </b><input type="text" name="genero" value="{{old('genero')}}"><br><br>
+    
+    <b>Genero: </b>
+    <select name="id_genero">
+        @foreach ($generos as $genero)
+            <option value="{{$genero->id_genero}}">{{$genero->designacao}}</option>
+        @endforeach
+    </select><br><br>
     @if ($errors-> has('genero'))
-    <span style="color:red">O ID do género tem de ser um número.</span><br><br>
+        <span style="color:red">O ID do género tem de ser um número.</span><br><br>
     @endif<br>
 
     <b>Autor: </b><input type="text" name="autor" value="{{old('autor')}}"><br><br>

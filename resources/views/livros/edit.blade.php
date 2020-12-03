@@ -37,7 +37,12 @@
     <span style="color:red">A imagem deve ter entre 3 e 25 caracteres.</span><br><br>
     @endif<br>
 
-    <b>Género: </b><input type="text" name="genero" value="{{$livro->genero}}"><br><br>
+    <b>Género: </b>
+    <select name="id_genero">
+        @foreach ($generos as $genero)
+            <option value="{{$genero->id_genero}}" @if($genero->id_genero==$livro->id_genero)selected @endif>{{$genero->designacao}}</option>
+        @endforeach
+    </select><br><br>
     @if ($errors-> has('genero'))
     <span style="color:red">O ID do género tem de ser um número.</span><br><br>
     @endif<br>

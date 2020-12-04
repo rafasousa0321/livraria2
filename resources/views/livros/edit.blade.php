@@ -47,9 +47,26 @@
     <span style="color:red">O ID do género tem de ser um número.</span><br><br>
     @endif<br>
 
-    <b>Autor: </b><input type="text" name="autor" value="{{$livro->autor}}"><br><br>
+    <b>Autor: </b>
+    <select name="id_autor[]" multiple="multiple">
+        @foreach ($autores as $autor)
+            <option value="{{$autor->id_autor}}" @if(in_array($autor->id_autor, $autoresLivro))selected @endif
+            >{{$autor->nome}}</option>
+            
+        @endforeach
+    </select>
     @if ($errors-> has('autor'))
     <span style="color:red">O ID do autor tem de ser um número.</span><br><br>
+    @endif<br>
+
+    <b>Editora: </b>
+    <select name="id_editora[]" multiple="multiple">
+        @foreach ($editoras as $editora)
+            <option value="{{$editora->id_editora}}">{{$editora->nome}}</option>
+        @endforeach
+    </select>
+    @if ($errors-> has('editora'))
+    <span style="color:red">Escolha uma opção.</span><br><br>
     @endif<br>
 
     <b>Sinopse: </b><textarea name="sinopse">{{$livro->sinopse}}</textarea><br><br>

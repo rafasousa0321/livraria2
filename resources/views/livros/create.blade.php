@@ -43,12 +43,27 @@
         @endforeach
     </select><br><br>
     @if ($errors-> has('genero'))
-        <span style="color:red">O ID do género tem de ser um número.</span><br><br>
+        <span style="color:red">Escolha uma opção.</span><br><br>
     @endif<br>
 
-    <b>Autor: </b><input type="text" name="autor" value="{{old('autor')}}"><br><br>
+    <b>Autor: </b>
+    <select name="id_autor[]" multiple="multiple">
+        @foreach ($autores as $autor)
+            <option value="{{$autor->id_autor}}">{{$autor->nome}}</option>
+        @endforeach
+    </select>
     @if ($errors-> has('autor'))
-    <span style="color:red">O ID do autor tem de ser um número.</span><br><br>
+    <span style="color:red">Escolha uma ou mais opções.</span><br><br>
+    @endif<br>
+
+    <b>Editora: </b>
+    <select name="id_editora[]" multiple="multiple">
+        @foreach ($editoras as $editora)
+            <option value="{{$editora->id_editora}}">{{$editora->nome}}</option>
+        @endforeach
+    </select>
+    @if ($errors-> has('editora'))
+    <span style="color:red">Escolha uma opção.</span><br><br>
     @endif<br>
 
     <b>Sinopse: </b><textarea type="text" name="sinopse" value="{{old('sinopse')}}"></textarea><br><br>

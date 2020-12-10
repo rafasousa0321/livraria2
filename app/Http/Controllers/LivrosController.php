@@ -7,6 +7,7 @@ use App\Models\Livro;
 use App\Models\Genero;
 use App\Models\Autor;
 use App\Models\Editora;
+use Auth;
 
 class LivrosController extends Controller
 {
@@ -40,6 +41,7 @@ class LivrosController extends Controller
     }
 
     public function store(Request $req){
+
         $novoLivro = $req->validate([
             'titulo'=>['required', 'min:3', 'max:100'],
             'idioma'=>['required', 'min:3', 'max:10'],
@@ -51,6 +53,10 @@ class LivrosController extends Controller
             'id_genero'=>['nullable', 'numeric'],
             'sinopse'=>['nullable', 'min:3', 'max:255'],
         ]);
+        if(Auth::check()){
+            $userAtual = Auth::user()->id;
+            $novolivro['id_user']=$userAtual;
+        }
         $autores = $req->id_autor;
         $editoras = $req->id_editora;
         $livro = Livro::create($novoLivro);

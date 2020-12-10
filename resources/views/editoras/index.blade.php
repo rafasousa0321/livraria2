@@ -13,5 +13,7 @@ Livraria
 @endforeach
 </ul>
 <br>
-<a href="{{route('editoras.create')}}" class="btn btn-primary">Nova Editora</a>
+@if(auth()->check())
+    <a href="{{route('editoras.create')}}" class="btn btn-primary">Nova Editora</a>
+@endif
 @endsection

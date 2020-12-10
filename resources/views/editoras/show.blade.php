@@ -21,6 +21,8 @@ Deleted_at:{{$editora->deleted_at}}
 
 <br>
 <br>
-<a href="{{route('editoras.edit' , ['id'=>$editora->id_editora])}}" class="btn btn-primary">Editar Editora</a>
-<a href="{{route('editoras.delete' , ['id'=>$editora->id_editora])}}" class="btn btn-primary">Eliminar Editora</a>
+@if(auth()->check())
+    <a href="{{route('editoras.edit' , ['id'=>$editora->id_editora])}}" class="btn btn-primary">Editar Editora</a>
+    <a href="{{route('editoras.delete' , ['id'=>$editora->id_editora])}}" class="btn btn-primary">Eliminar Editora</a>
+@endif
 </ul>

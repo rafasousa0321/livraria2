@@ -1,13 +1,16 @@
 @extends('layout')
 <ul>
-ID:{{$livro->id_livro}}<br>
-Titulo:{{$livro->titulo}}<br>
-Idioma:{{$livro->idioma}}<br>
-ISBN:{{$livro->isbn}}<br>
-Data Edição:{{$livro->data_edicao}}<br>
-Total paginas:{{$livro->total_paginas}}<br>
-Observações:{{$livro->observacoes}}<br>
-Imagem Capa:{{$livro->imagem_capa}}<br>
+ID: {{$livro->id_livro}}<br>
+Titulo: {{$livro->titulo}}<br>
+Idioma: {{$livro->idioma}}<br>
+ISBN: {{$livro->isbn}}<br>
+Data Edição: {{$livro->data_edicao}}<br>
+Total paginas: {{$livro->total_paginas}}<br>
+Observações: {{$livro->observacoes}}<br>
+Imagem Capa: {{$livro->imagem_capa}}<br>
+@if(isset ($livro->user->name))
+    Livro adicionado por: {{$livro->user->name}}
+@endif
 
 @if(count($livro->editoras)>0)
         @foreach($livro->editoras as $editora)
@@ -44,8 +47,15 @@ Deleted_at:{{$livro->deleted_at}}
 
 <br>
 <br>
-@if(auth()->check())
+@if($livro->id_user != NULL)
+    @if(auth()->check())
+        @if(auth()->user()->id == $livro->id_user)
+            <a href="{{route('livros.edit' , ['id'=>$livro->id_livro])}}" class="btn btn-primary">Editar Livro</a>
+            <a href="{{route('livros.delete' , ['id'=>$livro->id_livro])}}" class="btn btn-primary">Eliminar Livro</a>    
+        @endif
+    @endif
+@else
     <a href="{{route('livros.edit' , ['id'=>$livro->id_livro])}}" class="btn btn-primary">Editar Livro</a>
-    <a href="{{route('livros.delete' , ['id'=>$livro->id_livro])}}" class="btn btn-primary">Eliminar Livro</a>
+    <a href="{{route('livros.delete' , ['id'=>$livro->id_livro])}}" class="btn btn-primary">Eliminar Livro</a>   
 @endif
 </ul>

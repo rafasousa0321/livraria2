@@ -23,7 +23,7 @@ class LivrosController extends Controller
         $idLivro = $request->id;
         //$livro=Livro::findOrFail($idLivro);
         //$livro=Livro::find($idLivro);
-        $livro=Livro::where('id_livro',$idLivro)->with(['genero','autores','editoras'])->first();
+        $livro=Livro::where('id_livro',$idLivro)->with(['genero','autores','editoras','user'])->first();
         return view('livros.show',[
             'livro'=>$livro
         ]);
@@ -55,7 +55,7 @@ class LivrosController extends Controller
         ]);
         if(Auth::check()){
             $userAtual = Auth::user()->id;
-            $novolivro['id_user']=$userAtual;
+            $novoLivro['id_user']=$userAtual;
         }
         $autores = $req->id_autor;
         $editoras = $req->id_editora;
@@ -73,7 +73,7 @@ class LivrosController extends Controller
         $generos = Genero::all();
         $editoras = Editora::all();
         $idLivro = $req->id;
-        $livro = Livro::where('id_livro', $idLivro)->with('autores', 'editoras')->first();
+        $livro = Livro::where('id_livro', $idLivro)->with('autores', 'editoras','user')->first();
         $autoresLivro = [];
         $editorasLivro = [];
         foreach($livro->autores as $autor){

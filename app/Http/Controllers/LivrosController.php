@@ -82,15 +82,31 @@ class LivrosController extends Controller
         foreach($livro->editoras as $editora){
             $editorasLivro[] = $editora->id_editora;
         }
-
-        return view('livros.edit', [
-            'livro'=>$livro,
-            'generos'=>$generos,
-            'autores'=>$autores,
-            'editoras'=>$editoras,
-            'autoresLivro'=>$autoresLivro,
-            'editorasLivro'=>$editorasLivro
-        ]);
+        if(isset($livro->user->id_user)){
+            if(Auth()->check()){
+                if(Auth::user()->id == $livro->id_user){
+                    return view('livros.edit',[
+                        'livro'=>$livro,
+                        'generos'=>$generos,
+                        'autores'=>$autores,
+                        'editoras'=>$editoras,
+                        'autoresLivro'=>$autoresLivro,
+                        'editorasLivro'=>$editorasLivro
+                    ]);
+                }else{
+                    return view('index');
+                }
+            }
+        }else{
+            return view('livros.edit', [
+                'livro'=>$livro,
+                'generos'=>$generos,
+                'autores'=>$autores,
+                'editoras'=>$editoras,
+                'autoresLivro'=>$autoresLivro,
+                'editorasLivro'=>$editorasLivro
+            ]);
+        }
     }
 
     public function update(Request $req){
@@ -120,18 +136,33 @@ class LivrosController extends Controller
 
     public function delete(Request $req){
         $livro = Livro::where('id_livro', $req->id)->first();
-        if(is_null($livro)){
-            return redirect()->route('livros.index')
-                ->with('msg', 'O livro não existe');
+        if(isset($livro->users->id_user)){
+            if(Auth()->check()){
+                if(Auth::user()->id == $livro->id_user){
+                    if(is_null($livro)){
+                        return redirect()->route('livros.index')
+                            ->with('msg', 'O livro não existe');
+                    }else{
+                        return view('livros.delete', ['livro'=>$livro]);
+                    }
+                }else{
+                    return view('livros.index');
+                }
+            }
         }else{
-            return view('livros.delete', ['livro'=>$livro]);
+            if(is_null($livro)){
+                return redirect()->route('livros.index')
+                    ->with('msg', 'O livro não existe');
+            }else{
+                return view('livros.delete', ['livro'=>$livro]);
+            }
         }
     }
 
     public function destroy(Request $req){
         $livro = Livro::where('id_livro', $req->id)->first();
         $autoresLivro = Livro::findOrFail($req->id)->autores;
-        $livro->autores()->detach($autoresLivros);
+        $livro->autores()->detach($autoresLivro);
         if(is_null($livro)){
             return redirect()->route('livros.index')
                 ->with('msg', 'O livro não existe');

@@ -123,3 +123,6 @@ Route::delete('/editoras', 'App\Http\Controllers\EditorasController@destroy')
 
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::post('/livros/{id}/comentarios', 'App\Http\Controllers\LivrosController@comentario')
+    ->name('livros.comentario')->middleware('auth');

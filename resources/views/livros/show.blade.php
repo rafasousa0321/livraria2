@@ -51,11 +51,20 @@ Deleted_at:{{$livro->deleted_at}}
     @if(auth()->check())
         @if(auth()->user()->id == $livro->id_user)
             <a href="{{route('livros.edit' , ['id'=>$livro->id_livro])}}" class="btn btn-primary">Editar Livro</a>
-            <a href="{{route('livros.delete' , ['id'=>$livro->id_livro])}}" class="btn btn-primary">Eliminar Livro</a>    
+            <a href="{{route('livros.delete' , ['id'=>$livro->id_livro])}}" class="btn btn-primary">Eliminar Livro</a>
+
         @endif
     @endif
 @else
     <a href="{{route('livros.edit' , ['id'=>$livro->id_livro])}}" class="btn btn-primary">Editar Livro</a>
     <a href="{{route('livros.delete' , ['id'=>$livro->id_livro])}}" class="btn btn-primary">Eliminar Livro</a>   
+@endif
+
+@if(auth()->check())
+    <form action="{{route('livros.comentario' , ['id'=>$livro->id_livro])}}">
+        <br>
+        Comentarios: <br><textarea type="text" name="comentario">{{old('comentario')}}</textarea><br>
+        <input type="submit" text="enviar">
+    </form>
 @endif
 </ul>

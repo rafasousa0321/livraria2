@@ -171,4 +171,19 @@ class LivrosController extends Controller
             return redirect()->route('livros.index')->with('msg','Livro eliminado');
         }
     }
+
+    public function comentario(Request $req){
+        $idLivro = $req ->id;
+        $livro = Livro::findOrFail($ilLivro);
+        $comentario = $req->validate([
+            'comentario'=>['required', 'min:1', 'max:255'],
+        ]);
+        if(Auth::check()){
+            $userAtual = Auth::user()->id;
+            $comentario['id_user']=$userAtual;
+            return redirect()->route('livros.show',[
+                'id' => $livro->id_livro
+            ])
+        }
+    }
 }

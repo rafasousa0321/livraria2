@@ -8,6 +8,7 @@ use App\Models\Genero;
 use App\Models\Autor;
 use App\Models\Editora;
 use Auth;
+use Illuminate\Support\Facades\Gate;
 
 class LivrosController extends Controller
 {
@@ -37,35 +38,39 @@ class LivrosController extends Controller
             'generos'=>$generos,
             'autores'=>$autores,
             'editoras'=>$editoras
-        ]);
+         ]);
     }
 
     public function store(Request $req){
+        if(Gate::allows('admin')){
+            $novoLivro = $req->validate([
+                'titulo'=>['required', 'min:3', 'max:100'],
+                'idioma'=>['required', 'min:3', 'max:10'],
+                'total_paginas'=>['nullable', 'numeric', 'min:25'],
+                'data_edicao'=>['nullable', 'date'],
+                'isbn'=>['required', 'min:13', 'max:13'],
+                'observacoes'=>['nullable', 'min:3', 'max:255'],
+                'imagem_capa'=>['nullable', 'min:3', 'max:25'],
+                'id_genero'=>['nullable', 'numeric'],
+                'sinopse'=>['nullable', 'min:3', 'max:255'],
+            ]);
+            if(Auth::check()){
+                $userAtual = Auth::user()->id;
+                $novoLivro['id_user']=$userAtual;
+            }
+            $autores = $req->id_autor;
+            $editoras = $req->id_editora;
+            $livro = Livro::create($novoLivro);
+            $livro->autores()->attach($autores);
+            $livro->editoras()->attach($editoras);
 
-        $novoLivro = $req->validate([
-            'titulo'=>['required', 'min:3', 'max:100'],
-            'idioma'=>['required', 'min:3', 'max:10'],
-            'total_paginas'=>['nullable', 'numeric', 'min:25'],
-            'data_edicao'=>['nullable', 'date'],
-            'isbn'=>['required', 'min:13', 'max:13'],
-            'observacoes'=>['nullable', 'min:3', 'max:255'],
-            'imagem_capa'=>['nullable', 'min:3', 'max:25'],
-            'id_genero'=>['nullable', 'numeric'],
-            'sinopse'=>['nullable', 'min:3', 'max:255'],
-        ]);
-        if(Auth::check()){
-            $userAtual = Auth::user()->id;
-            $novoLivro['id_user']=$userAtual;
+            return redirect()->route('livros.show', [
+                'id'=>$livro->id_livro
+            ]);
+        }else{
+            return redirect()->route('livros.index')
+                ->with('msg', 'Não tem permissão para aceder à área pretendida.');
         }
-        $autores = $req->id_autor;
-        $editoras = $req->id_editora;
-        $livro = Livro::create($novoLivro);
-        $livro->autores()->attach($autores);
-        $livro->editoras()->attach($editoras);
-
-        return redirect()->route('livros.show', [
-            'id'=>$livro->id_livro
-        ]);
     }
 
     public function edit(Request $req){
@@ -74,88 +79,103 @@ class LivrosController extends Controller
         $editoras = Editora::all();
         $idLivro = $req->id;
         $livro = Livro::where('id_livro', $idLivro)->with('autores', 'editoras','user')->first();
-        $autoresLivro = [];
-        $editorasLivro = [];
-        foreach($livro->autores as $autor){
-            $autoresLivro[] = $autor->id_autor;
-        }
-        foreach($livro->editoras as $editora){
-            $editorasLivro[] = $editora->id_editora;
-        }
-        if(isset($livro->user->id_user)){
-            if(Auth()->check()){
-                if(Auth::user()->id == $livro->id_user){
-                    return view('livros.edit',[
-                        'livro'=>$livro,
-                        'generos'=>$generos,
-                        'autores'=>$autores,
-                        'editoras'=>$editoras,
-                        'autoresLivro'=>$autoresLivro,
-                        'editorasLivro'=>$editorasLivro
-                    ]);
-                }else{
-                    return view('index');
-                }
+        if(Gate::allows('atualizar-livro', $livro) || Gate::allows('admin')){
+            $autoresLivro = [];
+            $editorasLivro = [];
+            foreach($livro->autores as $autor){
+                $autoresLivro[] = $autor->id_autor;
             }
-        }else{
-            return view('livros.edit', [
-                'livro'=>$livro,
-                'generos'=>$generos,
-                'autores'=>$autores,
-                'editoras'=>$editoras,
-                'autoresLivro'=>$autoresLivro,
-                'editorasLivro'=>$editorasLivro
-            ]);
-        }
+            foreach($livro->editoras as $editora){
+                $editorasLivro[] = $editora->id_editora;
+            }
+            if(isset($livro->user->id_user)){
+                if(Auth()->check()){
+                    if(Auth::user()->id == $livro->id_user){
+                        return view('livros.edit',[
+                            'livro'=>$livro,
+                            'generos'=>$generos,
+                            'autores'=>$autores,
+                            'editoras'=>$editoras,
+                            'autoresLivro'=>$autoresLivro,
+                            'editorasLivro'=>$editorasLivro
+                        ]);
+                    }else{
+                        return view('index');
+                    }
+                }
+            }else{
+                return view('livros.edit', [
+                    'livro'=>$livro,
+                    'generos'=>$generos,
+                    'autores'=>$autores,
+                    'editoras'=>$editoras,
+                    'autoresLivro'=>$autoresLivro,
+                    'editorasLivro'=>$editorasLivro
+                ]);
+            }
+            }else{
+                return redirect()->route('livros.index')
+                    ->with('msg', 'Não tem permissão para aceder à área pretendida.');
+            }
     }
 
     public function update(Request $req){
         $idLivro=$req->id;
         $livro = Livro::findOrFail($idLivro);
-        $editarLivro = $req->validate([
-            'titulo'=>['required', 'min:3', 'max:100'],
-            'idioma'=>['required', 'min:3', 'max:10'],
-            'total_paginas'=>['nullable', 'numeric', 'min:25'],
-            'data_edicao'=>['nullable', 'date'],
-            'isbn'=>['required', 'min:13', 'max:13'],
-            'observacoes'=>['nullable', 'min:3', 'max:255'],
-            'imagem_capa'=>['nullable', 'min:3', 'max:25'],
-            'id_genero'=>['nullable', 'numeric'],
-            'sinopse'=>['nullable', 'min:3', 'max:255'],
-        ]);
-        $autores = $req->id_autor;
-        $editoras = $req->id_editora;
-        $livro->update($editarLivro);
-        $livro->autores()->sync($autores);
-        $livro->editoras()->sync($editoras);
+        if(Gate::allows('atualizar-livro', $livro) || Gate::allows('admin')){
+            $editarLivro = $req->validate([
+                'titulo'=>['required', 'min:3', 'max:100'],
+                'idioma'=>['required', 'min:3', 'max:10'],
+                'total_paginas'=>['nullable', 'numeric', 'min:25'],
+                'data_edicao'=>['nullable', 'date'],
+                'isbn'=>['required', 'min:13', 'max:13'],
+                'observacoes'=>['nullable', 'min:3', 'max:255'],
+                'imagem_capa'=>['nullable', 'min:3', 'max:25'],
+                'id_genero'=>['nullable', 'numeric'],
+                'sinopse'=>['nullable', 'min:3', 'max:255'],
+            ]);
+            $autores = $req->id_autor;
+            $editoras = $req->id_editora;
+            $livro->update($editarLivro);
+            $livro->autores()->sync($autores);
+            $livro->editoras()->sync($editoras);
 
-        return redirect()->route('livros.show', [
-            'id'=>$livro->id_livro
-        ]);
+            return redirect()->route('livros.show', [
+                'id'=>$livro->id_livro
+            ]);
+        }else{
+            return redirect()->route('livros.index')
+                ->with('msg', 'Não tem permissão para aceder à área pretendida.');
+        }
     }
 
     public function delete(Request $req){
         $livro = Livro::where('id_livro', $req->id)->first();
-        if(isset($livro->users->id_user)){
-            if(Auth()->check()){
-                if(Auth::user()->id == $livro->id_user){
-                    if(is_null($livro)){
-                        return redirect()->route('livros.index')
-                            ->with('msg', 'O livro não existe');
+        if(Gate::allows('atualizar-livro', $livro) || Gate::allows('admin')){
+            if(isset($livro->users->id_user)){
+                if(Auth()->check()){
+                    if(Auth::user()->id == $livro->id_user){
+                        if(is_null($livro)){
+                            return redirect()->route('livros.index')
+                                ->with('msg', 'O livro não existe');
+                        }else{
+                            return view('livros.delete', ['livro'=>$livro]);
+                        }
                     }else{
-                        return view('livros.delete', ['livro'=>$livro]);
+                        return view('livros.index');
                     }
+                }
+            }else{
+                if(is_null($livro)){
+                    return redirect()->route('livros.index')
+                        ->with('msg', 'O livro não existe');
                 }else{
-                    return view('livros.index');
+                    return view('livros.delete', ['livro'=>$livro]);
                 }
             }
         }else{
-            if(is_null($livro)){
-                return redirect()->route('livros.index')
-                    ->with('msg', 'O livro não existe');
-            }else{
-                return view('livros.delete', ['livro'=>$livro]);
-            }
+            return redirect()->route('livros.index')
+                ->with('msg', 'Não tem permissão para aceder à área pretendida.');
         }
     }
 
@@ -163,12 +183,17 @@ class LivrosController extends Controller
         $livro = Livro::where('id_livro', $req->id)->first();
         $autoresLivro = Livro::findOrFail($req->id)->autores;
         $livro->autores()->detach($autoresLivro);
-        if(is_null($livro)){
-            return redirect()->route('livros.index')
-                ->with('msg', 'O livro não existe');
+        if(Gate::allows('atualizar-livro', $livro) || Gate::allows('admin')){
+            if(is_null($livro)){
+                return redirect()->route('livros.index')
+                    ->with('msg', 'O livro não existe');
+            }else{
+                $livro->delete();
+                return redirect()->route('livros.index')->with('msg','Livro eliminado');
+            }
         }else{
-            $livro->delete();
-            return redirect()->route('livros.index')->with('msg','Livro eliminado');
+            return redirect()->route('livros.index')
+                ->with('msg', 'Não tem permissão para aceder à área pretendida.');
         }
     }
 
@@ -178,12 +203,17 @@ class LivrosController extends Controller
         $comentario = $req->validate([
             'comentario'=>['required', 'min:1', 'max:255'],
         ]);
-        if(Auth::check()){
-            $userAtual = Auth::user()->id;
-            $comentario['id_user']=$userAtual;
-            return redirect()->route('livros.show',[
-                'id' => $livro->id_livro
-            ])
+        if(Gate::allows('atualizar-livro', $livro) || Gate::allows('admin')){
+            if(Auth::check()){
+                $userAtual = Auth::user()->id;
+                $comentario['id_user']=$userAtual;
+                return redirect()->route('livros.show',[
+                    'id' => $livro->id_livro
+                ]);
+            }
+        }else{
+            return redirect()->route('livros.index')
+                ->with('msg', 'Não tem permissão para aceder à área pretendida.');
         }
     }
 }

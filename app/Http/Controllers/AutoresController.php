@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Autor;
+use Illuminate\Support\Facades\Gate;
 
 class AutoresController extends Controller
 {
@@ -26,55 +27,80 @@ class AutoresController extends Controller
     }
 
     public function create(){
-        return view('autores.create');
+        if(Gate::allows('admin')){
+            return view('autores.create');
+        }else{
+            return redirect()->route('autores.index')
+                ->with('msg', 'Não tem permissão para aceder à área pretendida.');
+        }
     }
 
     public function store(Request $req){
-        $novoAutor = $req->validate([
-            'id_autor'=>['required', 'min:1', 'numeric'],
-            'nome'=>['required', 'min:3', 'max:100'],
-            'nacionalidade'=>['nullable', 'min:3', 'max:20'],
-            'data_nascimento'=>['nullable', 'date'],
-            'fotografia'=>['nullable', 'min:3', 'max:255'],
-        ]);
-        $autor = Autor::create($novoAutor);
+        if(Gate::allows('admin')){
+            $novoAutor = $req->validate([
+                'id_autor'=>['required', 'min:1', 'numeric'],
+                'nome'=>['required', 'min:3', 'max:100'],
+                'nacionalidade'=>['nullable', 'min:3', 'max:20'],
+                'data_nascimento'=>['nullable', 'date'],
+                'fotografia'=>['nullable', 'min:3', 'max:255'],
+            ]);
+            $autor = Autor::create($novoAutor);
 
-        return redirect()->route('autores.show', [
-            'ida'=>$autor->id_autor
-        ]);
+            return redirect()->route('autores.show', [
+                'ida'=>$autor->id_autor
+            ]);
+        }else{
+            return redirect()->route('autores.index')
+                ->with('msg', 'Não tem permissão para aceder à área pretendida.');
+        }
     }
 
     public function edit(Request $req){
-        $idAutor = $req->ida;
-        $autor = Autor::where('id_autor', $idAutor)->first();
-        return view('autores.edit', [
-            'autor'=>$autor
-        ]);
+        if(Gate::allows('admin')){
+            $idAutor = $req->ida;
+            $autor = Autor::where('id_autor', $idAutor)->first();
+            return view('autores.edit', [
+                'autor'=>$autor
+            ]);
+        }else{
+            return redirect()->route('autores.index')
+                ->with('msg', 'Não tem permissão para aceder à área pretendida.');
+        }
     }
 
     public function update(Request $req){
-        $idAutor=$req->ida;
-        $autor = Autor::findOrFail($idAutor);
-        $editarAutor = $req->validate([
-            'id_autor'=>['required', 'min:1', 'numeric'],
-            'nome'=>['required', 'min:3', 'max:100'],
-            'nacionalidade'=>['nullable', 'min:3', 'max:20'],
-            'data_nascimento'=>['nullable', 'date'],
-            'fotografia'=>['nullable', 'min:3', 'max:255'],
-        ]);
-        $autor->update($editarAutor);
-        return redirect()->route('autores.show', [
-            'ida'=>$autor->id_autor
-        ]);
+        if(Gate::allows('admin')){
+            $idAutor=$req->ida;
+            $autor = Autor::findOrFail($idAutor);
+            $editarAutor = $req->validate([
+                'id_autor'=>['required', 'min:1', 'numeric'],
+                'nome'=>['required', 'min:3', 'max:100'],
+                'nacionalidade'=>['nullable', 'min:3', 'max:20'],
+                'data_nascimento'=>['nullable', 'date'],
+                'fotografia'=>['nullable', 'min:3', 'max:255'],
+            ]);
+            $autor->update($editarAutor);
+            return redirect()->route('autores.show', [
+                'ida'=>$autor->id_autor
+            ]);
+        }else{
+            return redirect()->route('autores.index')
+                ->with('msg', 'Não tem permissão para aceder à área pretendida.');
+        }
     }
 
     public function delete(Request $req){
-        $autor = Autor::where('id_autor', $req->id)->first();
-        if(is_null($autor)){
-            return redirect()->route('autores.index')
-                ->with('msg', 'O autor não existe');
+        if(Gate::allows('admin')){
+            $autor = Autor::where('id_autor', $req->id)->first();
+            if(is_null($autor)){
+                return redirect()->route('autores.index')
+                    ->with('msg', 'O autor não existe');
+            }else{
+                return view('autores.delete', ['autor'=>$autor]);
+            }
         }else{
-            return view('autores.delete', ['autor'=>$autor]);
+            return redirect()->route('autores.index')
+                ->with('msg', 'Não tem permissão para aceder à área pretendida.');
         }
     }
 

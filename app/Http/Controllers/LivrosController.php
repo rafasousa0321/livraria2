@@ -38,39 +38,33 @@ class LivrosController extends Controller
             'generos'=>$generos,
             'autores'=>$autores,
             'editoras'=>$editoras
-         ]);
+        ]);
     }
 
     public function store(Request $req){
-        if(Gate::allows('admin')){
-            $novoLivro = $req->validate([
-                'titulo'=>['required', 'min:3', 'max:100'],
-                'idioma'=>['required', 'min:3', 'max:10'],
-                'total_paginas'=>['nullable', 'numeric', 'min:25'],
-                'data_edicao'=>['nullable', 'date'],
-                'isbn'=>['required', 'min:13', 'max:13'],
-                'observacoes'=>['nullable', 'min:3', 'max:255'],
-                'imagem_capa'=>['nullable', 'min:3', 'max:25'],
-                'id_genero'=>['nullable', 'numeric'],
-                'sinopse'=>['nullable', 'min:3', 'max:255'],
-            ]);
-            if(Auth::check()){
-                $userAtual = Auth::user()->id;
-                $novoLivro['id_user']=$userAtual;
-            }
-            $autores = $req->id_autor;
-            $editoras = $req->id_editora;
-            $livro = Livro::create($novoLivro);
-            $livro->autores()->attach($autores);
-            $livro->editoras()->attach($editoras);
-
-            return redirect()->route('livros.show', [
-                'id'=>$livro->id_livro
-            ]);
-        }else{
-            return redirect()->route('livros.index')
-                ->with('msg', 'Não tem permissão para aceder à área pretendida.');
+        $novoLivro = $req->validate([
+            'titulo'=>['required', 'min:3', 'max:100'],
+            'idioma'=>['required', 'min:3', 'max:10'],
+            'total_paginas'=>['nullable', 'numeric', 'min:25'],
+            'data_edicao'=>['nullable', 'date'],
+            'isbn'=>['required', 'min:13', 'max:13'],
+            'observacoes'=>['nullable', 'min:3', 'max:255'],
+            'imagem_capa'=>['nullable', 'min:3', 'max:25'],
+            'id_genero'=>['nullable', 'numeric'],
+            'sinopse'=>['nullable', 'min:3', 'max:255'],
+        ]);
+        if(Auth::check()){
+            $userAtual = Auth::user()->id;
+            $novoLivro['id_user']=$userAtual;
         }
+        $autores = $req->id_autor;
+        $editoras = $req->id_editora;
+        $livro = Livro::create($novoLivro);
+        $livro->autores()->attach($autores);
+        $livro->editoras()->attach($editoras);
+        return redirect()->route('livros.show', [
+            'id'=>$livro->id_livro
+        ]);
     }
 
     public function edit(Request $req){

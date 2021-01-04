@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 17-Dez-2020 às 15:23
+-- Generation Time: 04-Jan-2021 às 18:27
 -- Versão do servidor: 10.1.38-MariaDB
 -- versão do PHP: 7.3.2
 
@@ -243,7 +243,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `emai_vrified_at`, `password`, `tipo_user`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Rafael Sousa', 'rafannsousa@gmail.com', NULL, '$2y$10$mg.tDWivpjyUK.fHhUhHEeMQj2Ik..pHC6Njn6TkzkGfDjQ8mvDhG', 'normal', NULL, '2020-12-10 13:57:22', '2020-12-10 13:57:22');
+(1, 'Rafael Sousa', 'rafannsousa@gmail.com', NULL, '$2y$10$mg.tDWivpjyUK.fHhUhHEeMQj2Ik..pHC6Njn6TkzkGfDjQ8mvDhG', 'admin', NULL, '2020-12-10 13:57:22', '2020-12-10 13:57:22'),
+(2, 'Utilizador2', 'user2@gmail.com', NULL, '$2y$10$ZkSTJlXybFNZswlvk/NDyOwj/Oc8rCRxQjCrZF2JorQzr3kkHuM0C', 'normal', NULL, '2021-01-04 17:00:49', '2021-01-04 17:00:49');
 
 --
 -- Indexes for dumped tables
@@ -341,7 +342,7 @@ ALTER TABLE `livros`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

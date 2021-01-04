@@ -24,6 +24,7 @@
       <a class="nav-item nav-link" href="{{route('generos.index')}}">Generos</a>
       <a class="nav-item nav-link" href="{{route('editoras.index')}}">Editoras</a>
       <a class="nav-item nav-link" href="{{route('autores.index')}}">Autores</a>
+      <a class="nav-item nav-link" href="{{route('pesquisa.index')}}">Pesquisar</a>
       <a class="nav-item nav-link">|</a>
       @guest
         @if (Route::has('login'))

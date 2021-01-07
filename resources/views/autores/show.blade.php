@@ -13,7 +13,14 @@ Nome:{{$autores->nome}}<br>
     @endif
 Nacionalidade:{{$autores->nacionalidade}}<br>
 Data de Nascimento:{{$autores->data_nascimento}}<br>
-Fotografia:{{$autores->fotografia}}<br>
+
+@if($autores->fotografia != NULL)
+    Fotografia: <br>
+    <img src="{{asset('imagens/autores/' .$autores->fotografia)}}" width="150px"><br>
+@else
+    Fotografia: Inexistente<br>
+@endif
+
 Created_at:{{$autores->created_at}}<br>
 Updated_at:{{$autores->updated_at}}<br>
 Deleted_at:{{$autores->deleted_at}}
@@ -23,5 +30,5 @@ Deleted_at:{{$autores->deleted_at}}
 @if(auth()->check())
     <a href="{{route('autores.edit' , ['id'=>$autores->id_autor])}}" class="btn btn-primary">Editar Autor</a>
     <a href="{{route('autores.delete' , ['id'=>$autores->id_autor])}}" class="btn btn-primary">Eliminar Autor</a>
-endif
+@endif
 </ul>

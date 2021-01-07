@@ -9,6 +9,7 @@ use App\Models\Autor;
 use App\Models\Editora;
 use Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class LivrosController extends Controller
 {
@@ -50,6 +51,7 @@ class LivrosController extends Controller
             'isbn'=>['required', 'min:13', 'max:13'],
             'observacoes'=>['nullable', 'min:3', 'max:255'],
             'imagem_capa'=>['nullable', 'max:2000', 'image'],
+            'excerto'=>['nullable', 'max:2000', 'file: pdf, docx'],
             'id_genero'=>['nullable', 'numeric'],
             'sinopse'=>['nullable', 'min:3', 'max:255'],
         ]);
@@ -122,6 +124,8 @@ class LivrosController extends Controller
     public function update(Request $req){
         $idLivro=$req->id;
         $livro = Livro::findOrFail($idLivro);
+        $imagemAntiga = $livro->imagem_capa;
+        $ExcertoAntigo = $livro->excerto;
         if(Gate::allows('atualizar-livro', $livro) || Gate::allows('admin')){
             $editarLivro = $req->validate([
                 'titulo'=>['required', 'min:3', 'max:100'],
@@ -131,6 +135,7 @@ class LivrosController extends Controller
                 'isbn'=>['required', 'min:13', 'max:13'],
                 'observacoes'=>['nullable', 'min:3', 'max:255'],
                 'imagem_capa'=>['nullable', 'max:2000', 'image'],
+                'excerto'=>['nullable', 'max:2000', 'file: pdf, docx'],
                 'id_genero'=>['nullable', 'numeric'],
                 'sinopse'=>['nullable', 'min:3', 'max:255'],
             ]);
@@ -138,7 +143,19 @@ class LivrosController extends Controller
                 $nomeImagem = $req->file('imagem_capa')->getClientOriginalName();
                 $nomeImagem = time() .'_'. $nomeImagem;
                 $guardarImagem = $req->file('imagem_capa')->storeAs('imagens/livros', $nomeImagem);
+                if(!is_null($imagemAntiga)){
+                    Storage::Delete('imagens/livros/' .$imagemAntiga);
+                }
                 $editarLivro['imagem_capa'] = $nomeImagem;
+            }
+            if($req->hasFile('excerto')){
+                $nomeExcerto = $req->file('excerto')->getClientOriginalName();
+                $nomeExcerto = time() .'_'. $nomeExcerto;
+                $guardarExcerto = $req->file('excerto')->storeAs('documentos/livros', $nomeExcerto);
+                if(!is_null($ExcertoAntigo)){
+                    Storage::Delete('documentos/livros/' .$ExcertoAntigo);
+                }
+                $editarLivro['excerto'] = $nomeExcerto;
             }
             $autores = $req->id_autor;
             $editoras = $req->id_editora;

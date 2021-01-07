@@ -42,9 +42,17 @@ class AutoresController extends Controller
                 'nome'=>['required', 'min:3', 'max:100'],
                 'nacionalidade'=>['nullable', 'min:3', 'max:20'],
                 'data_nascimento'=>['nullable', 'date'],
-                'fotografia'=>['nullable', 'min:3', 'max:255'],
+                'fotografia'=>['image', 'nullable', 'max:2000'],
             ]);
-            $autor = Autor::create($novoAutor);
+            if($req->hasFile('fotografia')){
+                $nomeFotografia = $req->file('fotografia')->getClientOriginalName();
+                $nomeFotografia = time() .'_'. $nomeFotografia;
+                $guardarFotografia = $req->file('fotografia')->storeAs('imagens/autores', $nomeFotografia);
+                if(!is_null($fotografiaAntiga)){
+                    Storage::Delete('imagens/autores/' .$imagemAntiga);
+                }
+                $editarLivro['fotografia'] = $nomeFotografia;
+            }
 
             return redirect()->route('autores.show', [
                 'ida'=>$autor->id_autor
@@ -77,8 +85,17 @@ class AutoresController extends Controller
                 'nome'=>['required', 'min:3', 'max:100'],
                 'nacionalidade'=>['nullable', 'min:3', 'max:20'],
                 'data_nascimento'=>['nullable', 'date'],
-                'fotografia'=>['nullable', 'min:3', 'max:255'],
+                'fotografia'=>['image', 'nullable', 'max:2000'],
             ]);
+            if($req->hasFile('fotografia')){
+                $nomeFotografia = $req->file('fotografia')->getClientOriginalName();
+                $nomeFotografia = time() .'_'. $nomeFotografia;
+                $guardarFotografia = $req->file('fotografia')->storeAs('imagens/autores', $nomeFotografia);
+                if(!is_null($fotografiaAntiga)){
+                    Storage::Delete('imagens/autores/' .$imagemAntiga);
+                }
+                $editarLivro['fotografia'] = $nomeFotografia;
+            }
             $autor->update($editarAutor);
             return redirect()->route('autores.show', [
                 'ida'=>$autor->id_autor

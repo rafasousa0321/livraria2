@@ -22,9 +22,9 @@
     <span style="color:red">O formato da data está incorreto (DD-MM-YYYY)</span><br><br>
     @endif<br>
 
-    <b>Fotografia: </b><input type="text" name="fotografia" value="{{$autor->fotografia}}"><br><br>
+    <b>Fotografia: </b><input type="file" name="fotografia" value="{{old('fotografia')}}"><br><br>
     @if ($errors-> has('fotografia'))
-    <span style="color:red">A fotografia tem que ter entre 3 e 255 caracteres.</span><br><br>
+    <span style="color:red">A fotografia tem que ter no máximo 2mb.</span><br><br>
     @endif<br>
 
     <input type="submit" value="Enviar">

@@ -7,7 +7,14 @@ ISBN: {{$livro->isbn}}<br>
 Data Edição: {{$livro->data_edicao}}<br>
 Total paginas: {{$livro->total_paginas}}<br>
 Observações: {{$livro->observacoes}}<br>
-Imagem Capa: <img src="{{asset('imagens/livros/' .$livro->imagem_capa)}}" width="250px"><br>
+
+@if($livro->imagem_capa != NULL)
+    Imagem Capa: <br>
+    <img src="{{asset('imagens/livros/' .$livro->imagem_capa)}}" width="150px"><br>
+@else
+    Imagem Capa: Inexistente<br>
+@endif
+
 @if(isset ($livro->user->name))
     Livro adicionado por: {{$livro->user->name}}<br>
 @endif
@@ -38,6 +45,12 @@ Imagem Capa: <img src="{{asset('imagens/livros/' .$livro->imagem_capa)}}" width=
         <div class="alert alert-danger" role="alert">
         Sem o nome do autor definido
         </div>
+    @endif
+
+    @if($livro->excerto != NULL)
+        <a href="{{asset('documentos/livros/' .$livro->excerto)}}" Target="_blank">Excerto</a><br>
+    @else
+        Excerto: Inexistente<br>
     @endif
 
 Sinopse:{{$livro->sinopse}}<br>

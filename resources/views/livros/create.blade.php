@@ -33,7 +33,12 @@
 
     <b>Imagem capa: </b><input type="file" name="imagem_capa" value="{{old('imagem_capa')}}"><br><br>
     @if ($errors-> has('imagem_capa'))
-    <span style="color:red">A imagem deve ter entre 3 e 25 caracteres.</span><br><br>
+    <span style="color:red">A imagem deve ter no máximo 2mb.</span><br><br>
+    @endif<br>
+
+    <b>Excerto: </b><input type="file" name="excerto" value="{{old('excerto')}}"><br><br>
+    @if ($errors-> has('excerto'))
+    <span style="color:red">O ficheiro deve ter no máximo 2mb.</span><br><br>
     @endif<br>
     
     <b>Genero: </b>

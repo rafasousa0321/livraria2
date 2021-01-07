@@ -7,9 +7,9 @@ ISBN: {{$livro->isbn}}<br>
 Data Edição: {{$livro->data_edicao}}<br>
 Total paginas: {{$livro->total_paginas}}<br>
 Observações: {{$livro->observacoes}}<br>
-Imagem Capa: {{$livro->imagem_capa}}<br>
+Imagem Capa: <img src="{{asset('imagens/livros/' .$livro->imagem_capa)}}" width="250px"><br>
 @if(isset ($livro->user->name))
-    Livro adicionado por: {{$livro->user->name}}
+    Livro adicionado por: {{$livro->user->name}}<br>
 @endif
 
 @if(count($livro->editoras)>0)

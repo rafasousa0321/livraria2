@@ -1,4 +1,4 @@
-<form action="{{route('livros.store')}}" method="post">
+<form action="{{route('livros.store')}}" enctype="multipart/form-data" method="post">
     @csrf
     
     <b>Titulo: (<b style="color:red">*</b>) </b><input type="text" name="titulo" value="{{old('titulo')}}"><br><br>
@@ -31,7 +31,7 @@
     <span style="color:red">As observações devem ter entre 3 e 255 caracteres.</span><br><br>
     @endif<br>
 
-    <b>Imagem capa: </b><input type="text" name="imagem_capa" value="{{old('imagem_capa')}}"><br><br>
+    <b>Imagem capa: </b><input type="file" name="imagem_capa" value="{{old('imagem_capa')}}"><br><br>
     @if ($errors-> has('imagem_capa'))
     <span style="color:red">A imagem deve ter entre 3 e 25 caracteres.</span><br><br>
     @endif<br>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 04-Jan-2021 às 18:27
+-- Generation Time: 07-Jan-2021 às 11:16
 -- Versão do servidor: 10.1.38-MariaDB
 -- versão do PHP: 7.3.2
 
@@ -71,6 +71,16 @@ CREATE TABLE `autores_livros` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `autores_livros`
+--
+
+INSERT INTO `autores_livros` (`id_al`, `id_autor`, `id_livro`, `updated_at`, `created_at`) VALUES
+(1, 2, 17, '2021-01-07 10:10:18', '2021-01-07 10:10:18'),
+(2, 3, 17, '2021-01-07 10:10:18', '2021-01-07 10:10:18'),
+(3, 2, 18, '2021-01-07 10:11:52', '2021-01-07 10:11:52'),
+(4, 3, 18, '2021-01-07 10:11:52', '2021-01-07 10:11:52');
 
 -- --------------------------------------------------------
 
@@ -149,6 +159,14 @@ CREATE TABLE `editoras_livros` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Extraindo dados da tabela `editoras_livros`
+--
+
+INSERT INTO `editoras_livros` (`id_editora`, `id_livro`, `titulo`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(3, 17, NULL, '2021-01-07 10:10:18', '2021-01-07 10:10:18', NULL),
+(3, 18, NULL, '2021-01-07 10:11:52', '2021-01-07 10:11:52', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -218,7 +236,10 @@ INSERT INTO `livros` (`id_livro`, `titulo`, `idioma`, `total_paginas`, `data_edi
 (12, 'Repensar a Sociedade da Informação e do Conhecimento no Início do Século XXI', 'Português', NULL, NULL, '9789726186953', NULL, NULL, 3, 4, NULL, NULL, NULL, NULL, 0),
 (13, 'Gestão da Informação em Museus: uma contribuição para o seu estudo', 'Português', NULL, NULL, '9789899901394', NULL, NULL, 2, 4, NULL, NULL, NULL, NULL, 0),
 (14, 'Web 2.0 and Higher Education. A psychological perspective', 'Inglês', NULL, NULL, '9783659683466', NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, 0),
-(15, 'Contribuições para a discussão de um modelo de Governo Eletrónico Local para Angola', 'Português', NULL, NULL, '9789899933200', NULL, NULL, 1, 13, NULL, NULL, NULL, NULL, 0);
+(15, 'Contribuições para a discussão de um modelo de Governo Eletrónico Local para Angola', 'Português', NULL, NULL, '9789899933200', NULL, NULL, 1, 13, NULL, NULL, NULL, NULL, 0),
+(16, 'pingu', 'portugues', NULL, NULL, '1234567894563', NULL, '1610013844_Penguins.jpg', 1, NULL, NULL, '2021-01-07 10:04:04', '2021-01-07 10:04:04', NULL, 1),
+(17, 'pingu', 'portugues', NULL, NULL, '1234567893663', NULL, '1610014218_Penguins.jpg', 1, NULL, NULL, '2021-01-07 10:10:18', '2021-01-07 10:10:18', NULL, 1),
+(18, 'pingu', 'portugues', NULL, NULL, '1234567893323', NULL, '1610014312_Penguins.jpg', 1, NULL, NULL, '2021-01-07 10:11:52', '2021-01-07 10:11:52', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -312,7 +333,7 @@ ALTER TABLE `autores`
 -- AUTO_INCREMENT for table `autores_livros`
 --
 ALTER TABLE `autores_livros`
-  MODIFY `id_al` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_al` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `comentarios`
@@ -336,7 +357,7 @@ ALTER TABLE `generos`
 -- AUTO_INCREMENT for table `livros`
 --
 ALTER TABLE `livros`
-  MODIFY `id_livro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_livro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `users`

@@ -1,4 +1,4 @@
-<form action="{{route('livros.update', ['id'=>$livro->id_livro])}}" method="post">
+<form action="{{route('livros.update', ['id'=>$livro->id_livro])}}" enctype="multipart/form-data" method="post">
     @csrf
     @method('patch')
     
@@ -32,7 +32,7 @@
     <span style="color:red">As observações devem ter entre 3 e 255 caracteres.</span><br><br>
     @endif<br>
 
-    <b>Imagem capa: </b><input type="text" name="imagem_capa" value="{{$livro->imagem_capa}}"><br><br>
+    <b>Imagem capa: </b><input type="file" name="imagem_capa" value="{{$livro->imagem_capa}}"><br><br>
     @if ($errors-> has('imagem_capa'))
     <span style="color:red">A imagem deve ter entre 3 e 25 caracteres.</span><br><br>
     @endif<br>
